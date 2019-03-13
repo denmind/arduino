@@ -1,22 +1,28 @@
+
 <?php
 	error_reporting(0);
 	
 	$led = " ";
-	$filename = "arduino.bat";
+	$filename = "command.bat";
+	$filename_config = "config.bat";
 
 	$exec_file = fopen($filename, "w");
+	$exec_file_config = fopen($filename_config, "w");
 	
 	$range = $_POST["brightness"];
+	$string_config = "mode COM3 9600, n, 8, 1, p";
+	fwrite($exec_file_config,$string_config);
+	exec("{$exec_file_config} 2>&1");
 	
 	 if(isset($_POST["button_off"])){
-		 $exec_file_string = "mode COM3 9600, n, 8, 1, p\nECHO 0 > COM3:";
+		 $exec_file_string = "ECHO 0 > COM3:";
 		 $led = "OFF";
 	 }else if(isset($_POST["button_on"])){
-		 $exec_file_string = "mode COM3 9600, n, 8, 1, p\nECHO 1 > COM3:";
+		 $exec_file_string = "ECHO 1 > COM3:";
 		 $led = "ON";
 	 }else if($range >= 0 && $range <= 254){
 		print_r($range);
-		 $exec_file_string = "mode COM3 9600, n, 8, 1, p\nECHO {$range} > COM3:";
+		 $exec_file_string = "ECHO {$range} > COM3:";
 	 }
 	 
 	 fwrite($exec_file,$exec_file_string);

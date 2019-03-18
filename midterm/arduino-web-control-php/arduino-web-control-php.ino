@@ -27,10 +27,10 @@ void loop() {
     int input = Serial.readString().toInt();
 
     
-    if(input == "0"){
+    if(input == 1){
       digitalWrite(OUTPUT_PIN,HIGH);
       
-    }else if(input == "1"){
+    }else if(input == 0){
       digitalWrite(OUTPUT_PIN,LOW);
       
     }else if(input > ON && input <= MAX){

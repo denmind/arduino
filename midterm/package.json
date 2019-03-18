@@ -1,0 +1,11 @@
+{
+    "name": "App",
+    "version": "0.0.1",
+    "description": "App",
+    "dependencies": {
+        "johnny-five": "^1.0.0",
+        "serialport": "^7.1.4",
+        "socket.io": "latest"
+    },
+    "author": "developer"
+}

@@ -1,0 +1,36 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <h3>RANGE:</h3>
+    <!--<input type="range" name="potentio" min="0" max="255" value="0" />-->
+    <input type="text" readonly id="range" name="try" value="0" />
+    <h2 id="change"></h2>
+
+    <h2 id="switch"></h2>
+    
+</body>
+</html>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    console.log(document.getElementById("range").value);
+    var socket = io.connect('http://localhost:3000'); 
+    socket.on('value', function (data) {
+        //console.log(document.getElementById("range").value);
+        console.log(data.val);
+        var data = data.val;
+        document.getElementById("range").value = parseInt(data.value);  
+        
+    });
+
+    socket.on('switch', function (data) {
+        //console.log(document.getElementById("range").value);
+        //console.log(data.val);
+        var data = data.value;
+
+        document.getElementById("switch").innerHTML = data;
+        //document.getElementById("on").value = parseInt(data.value);
+
+    });
+</script>

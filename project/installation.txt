@@ -1,0 +1,22 @@
+[MODULES]
+Arduino Nano
+Arduino Uno
+DHT22 (Temperature)
+PVA092G12M (Fan / Servo substitute)
+
+1. Create circuit based on 'DHT22_I2C_NANO_BACKPACK.png'
+2. Upload 'DHT22_I2C_NANO_BACKPACK.ino' to Arduino Nano
+3. Upload 'StandardFirmataPlus.ino' to Arduino Uno
+4. Execute node dht22.js
+
+
+If readings are 0, go back to Step 1 until readings are no longer undefined.
+
+[PWM FOR FAN]
+MAX_INPUT 40
+MAX_OUTPUT 255
+
+INPUT (0-40)
+OUTPUT (0-255)
+
+Analog Value = MAX_OUTPUT * (INPUT / MAX_INPUT)

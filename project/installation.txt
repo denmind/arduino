@@ -12,6 +12,11 @@ PVA092G12M (Fan / Servo substitute)
 
 If readings are 0, go back to Step 1 until readings are no longer undefined.
 
+[3 PIN FAN]
+Yellow = Tachometer OUTPUT
+Black = GND
+Red = 5V or 12V
+ 
 [PWM FOR FAN]
 MAX_INPUT 40
 MAX_OUTPUT 255
@@ -20,3 +25,15 @@ INPUT (0-40)
 OUTPUT (0-255)
 
 Analog Value = MAX_OUTPUT * (INPUT / MAX_INPUT)
+
+[PWM VALUE DESCRIPTION]
+
+0 = On halt
+1-50 = Very slow
+51-101 = Slow
+102-148 = Normal
+149-199 = Fast
+200-254 = Very fast
+255 = Maximum
+
+

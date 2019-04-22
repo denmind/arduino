@@ -27,7 +27,6 @@ OUTPUT (0-255)
 Analog Value = MAX_OUTPUT * (INPUT / MAX_INPUT)
 
 [PWM VALUE DESCRIPTION]
-
 0 = On halt
 1-50 = Very slow
 51-101 = Slow
@@ -36,4 +35,20 @@ Analog Value = MAX_OUTPUT * (INPUT / MAX_INPUT)
 200-254 = Very fast
 255 = Maximum
 
+[Temperature HEX]
+-30 to -20 00183e
+-20 to -10 3a77ae
+-10 to 0 a6cae4
+0 10 fef663
+10 20 fff20e
+20 30 f7b006
+30 40 ef710b
+40 50 eb520e
+50 60 e73a10
+60 70 e80611
+
+[Temperature %]
+whole = TRUE_MAX - TRUE_MIN;
+new_c = c + Math.abs(TRUE_MIN);
+% = (new_c / whole) * 100;
 

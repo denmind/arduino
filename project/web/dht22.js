@@ -13,6 +13,7 @@ var board = new five.Board();
 var	MAX_INPUT = 40,
 	MIN_INPUT = 0;
 	
+app.use(express.static(path.join(__dirname, 'files')));
 app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname + '/index.html'));
 });

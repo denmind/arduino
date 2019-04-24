@@ -1,14 +1,18 @@
+[2DO]
+Extremes
+and display addtls
+
 [MODULES]
-Arduino Nano
-Arduino Uno
+Arduino Nano (I2C Backpack)
+Arduino Uno (Main controller)
 DHT22 (Temperature)
 PVA092G12M (Fan / Servo substitute)
+ESP8266(WiFi Module)
 
 1. Create circuit based on 'DHT22_I2C_NANO_BACKPACK.png'
 2. Upload 'DHT22_I2C_NANO_BACKPACK.ino' to Arduino Nano
 3. Upload 'StandardFirmataPlus.ino' to Arduino Uno
 4. Execute node dht22.js
-
 
 If readings are 0, go back to Step 1 until readings are no longer undefined.
 

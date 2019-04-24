@@ -8,12 +8,16 @@ var five = require("johnny-five");
 
 var board = new five.Board();
 
-//MAX_INPUT & INPUT might be supported for user modifiability
-//MAX_INPUT is in Celsius change accordingly
-var	MAX_INPUT = 40,
-	MIN_INPUT = 0;
-	
+//TEMP_MAX & INPUT  user modifiability
+//TEMP_MAX is in Celsius change accordingly
+var	TEMP_MAX = 40,
+	TEMP_MIN = 0,
+	c, h, f, k;
+
+//External files
 app.use(express.static(path.join(__dirname, 'files')));
+
+//Web
 app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname + '/index.html'));
 });
@@ -35,19 +39,19 @@ board.on("ready", function() {
 	var multi = new five.Multi({
 		controller: "DHT22_I2C_NANO_BACKPACK",
 		pin: PIN_I2C_NANO,
-	});
+	}); 
   
 	var FAN_PWM = 0,
 		FAN_SPEED;
 	  
 	multi.on("change", function() {
-		var c = this.thermometer.celsius;
-		var h = this.hygrometer.relativeHumidity;
-		var f = this.thermometer.fahrenheit;
-		var k = this.thermometer.kelvin;
+		c = this.thermometer.celsius;
+		h = this.hygrometer.relativeHumidity;
+		f = this.thermometer.fahrenheit;
+		k = this.thermometer.kelvin;
 		
-		//Change input variable depending if Celsius, Fahrenheit, or Kelvin is used
-		FAN_PWM = MAX_OUTPUT * (c / MAX_INPUT - MIN_INPUT);
+		//Speed of fan is based upon Celsius
+		FAN_PWM = MAX_OUTPUT * (c / TEMP_MAX - TEMP_MIN);
 		
 		if(FAN_PWM > MAX_OUTPUT)
 			FAN_PWM = MAX_OUTPUT;
@@ -57,9 +61,9 @@ board.on("ready", function() {
 		FAN_PWM = parseInt(FAN_PWM,10);
 		
 		//FAN_PWM range values' description message
-		if(FAN_PWM == MIN_INPUT)
+		if(FAN_PWM == MIN_OUTPUT)
 			FAN_SPEED = "on halt";
-		else if(FAN_PWM > MIN_INPUT && FAN_PWM < 51)
+		else if(FAN_PWM > MIN_OUTPUT && FAN_PWM < 51)
 			FAN_SPEED = "very slow";
 		else if(FAN_PWM > 51 && FAN_PWM < 102)
 			FAN_SPEED = "slow";
@@ -72,7 +76,7 @@ board.on("ready", function() {
 		else if(FAN_PWM == MAX_OUTPUT)
 			FAN_SPEED = "at maximum";
 		
-		//Checks first if values are valid, since AM2302 will throw
+		//Checks first if values are valid, since Multi will throw
 		//0 C and 0 % Humidity even if DHT22 Sensor is not attached to circuit
 		if(c != 0 && h != 0 && f != 32 && k != 273.15){
 			//MAIN PROCESS
@@ -80,6 +84,7 @@ board.on("ready", function() {
 			board.emit('readings',h,c,f,k,FAN_PWM,FAN_SPEED);
 		}
 	
+	//Changes fan speed everytime Multi changes it reading
 	board.analogWrite(PIN_FAN,FAN_PWM);
   });
 });
@@ -87,9 +92,9 @@ io.sockets.on('connection', function (socket) {
 	var addr = socket.request.connection.remoteAddress;
 	
 	//Notify
-	console.log(addr, " joined...");
+	console.log("JOINED: ",addr);
 	socket.on('disconnect',function(){
-		console.log(addr, " left...");
+		console.log("LEFT: ",addr);
 	});
 	
 	//Data extracted via AM2302 and the calculated fan speed

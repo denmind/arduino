@@ -1,4 +1,4 @@
-#include <ESP8266WiFi.h>
+  #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
 #include <ESP8266WebServer.h>
 #include <ESP8266mDNS.h>
@@ -6,8 +6,10 @@
 /* Set these to your desired credentials. */
 const String ssid = "Hot or Cold?";
 const String password = "it5008";
-const String localhost = "http://localhost:5008/";
+const String redirect_url = "http://192.168.4.2:5008/";
 const String dns = "hc";
+
+const int LED_BLINK_MS = 700;
 
 ESP8266WebServer server(80);
 
@@ -38,19 +40,13 @@ void setup() {
 void loop() {
   server.handleClient();
   blinkLed();
-  checkConnections();
 }
 void redirectHost(){
-  server.send(200,"text/html","<html><head><meta http-equiv='refresh' content='0; URL="+localhost+"'></head></html>");
+  server.send(200,"text/html","<html><head><meta http-equiv='refresh' content='0; URL="+redirect_url+"'></head></html>");
 }
 void blinkLed(){
-  digitalWrite(LED_BUILTIN,LOW);
-  delay(1000);
   digitalWrite(LED_BUILTIN,HIGH);
-  delay(1000);
-}
-void checkConnections(){
-  delay(3000);
-  Serial.print("[CLIENTS]: ");
-  Serial.println(WiFi.softAPgetStationNum());
+  delay(LED_BLINK_MS);
+  digitalWrite(LED_BUILTIN,LOW);
+  delay(LED_BLINK_MS);
 }

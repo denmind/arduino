@@ -8,10 +8,21 @@ var five = require("johnny-five");
 
 var board = new five.Board();
 
+const MAX_OUTPUT = 255, //MAXIMUM VALUE FOR ANALOG WRITE VALUE
+	  MIN_OUTPUT = 0, //MINIMUM VALUE FOR ANALOG WRITE VALUE
+	  PIN_FAN = 11, //PWM PIN FOR ANALOG OUTPUT
+	  PIN_I2C_NANO = 2; //DIGITAL PIN FOR ARDUINO NANO, SEE CIRCUIT FOR DETAILS
+	  TRUE_TEMP_MAX = 70, //Real maximum reading FOR AM2302
+	  TRUE_TEMP_MIN = -30, //Real minimum reading for AM2302
+	  TRUE_HUMID_MAX = 100,
+	  TRUE_HUMID_MIN = 0;
+	  
 //TEMP_MAX & INPUT  user modifiability
 //TEMP_MAX is in Celsius change accordingly
-var	TEMP_MAX = 40,
+var	TEMP_MAX = 35,
 	TEMP_MIN = 0,
+	HUMID_MAX = TRUE_HUMID_MAX,
+	HUMID_MIN = TRUE_HUMID_MIN,
 	c, h, f, k;
 
 //External files
@@ -23,15 +34,8 @@ app.get('/', function (req, res) {
 });
 
 board.on("ready", function() {
-	const MAX_OUTPUT = 255, //MAXIMUM VALUE FOR ANALOG WRITE VALUE
-		  MIN_OUTPUT = 0, //MINIMUM VALUE FOR ANALOG WRITE VALUE
-		  TRUE_MAX = 70, //Real maximum reading FOR AM2302
-		  TRUE_MIN = -30, //Real minimum reading for AM2302
-		  PIN_FAN = 11, //PWM PIN FOR ANALOG OUTPUT
-		  PIN_I2C_NANO = 2; //DIGITAL PIN FOR ARDUINO NANO, SEE CIRCUIT FOR DETAILS
-		
 	//Setup pins & setup fan speed to max to not deter
-	//change of fan speed
+	//change of fan speed (Initializer)
 	this.pinMode(PIN_FAN,five.Pin.PWM);
 	this.pinMode(1,five.Pin.ANALOG);
 	this.analogWrite(PIN_FAN,MAX_OUTPUT);
@@ -58,6 +62,7 @@ board.on("ready", function() {
 		else if(FAN_PWM < MIN_OUTPUT)
 			FAN_PWM = MIN_OUTPUT;
 		
+		//Convert to whole int
 		FAN_PWM = parseInt(FAN_PWM,10);
 		
 		//FAN_PWM range values' description message
@@ -71,7 +76,7 @@ board.on("ready", function() {
 			FAN_SPEED = "normal";
 		else if(FAN_PWM > 149 && FAN_PWM < 200)
 			FAN_SPEED = "fast";
-		else if(FAN_PWM > 200 && FAN_PWM < MAX_OUTPUT)
+		else if(FAN_PWM > 200 && FAN_PWM < 255)
 			FAN_SPEED = "very fast";
 		else if(FAN_PWM == MAX_OUTPUT)
 			FAN_SPEED = "at maximum";
@@ -83,13 +88,16 @@ board.on("ready", function() {
 			//console.log(h + " " + c + " " + f + " " + k + " " + FAN_PWM + " " + FAN_SPEED);
 			board.emit('readings',h,c,f,k,FAN_PWM,FAN_SPEED);
 		}
-	
 	//Changes fan speed everytime Multi changes it reading
 	board.analogWrite(PIN_FAN,FAN_PWM);
   });
 });
 io.sockets.on('connection', function (socket) {
 	var addr = socket.request.connection.remoteAddress;
+	
+	//Send extreme values to client
+    socket.emit("extremes",TEMP_MAX,TEMP_MIN,HUMID_MAX,HUMID_MIN);
+	//console.log(TEMP_MAX);console.log(TEMP_MIN);console.log(HUMID_MAX);console.log(HUMID_MIN);
 	
 	//Notify
 	console.log("JOINED: ",addr);
@@ -103,12 +111,6 @@ io.sockets.on('connection', function (socket) {
     });
 	
 	//Adds support in order for client to change
-	socket.on('change_max', function(){
-		
-	});
-	socket.on('change_min', function(){
-		
-	});
 });
 const port = process.env.PORT || 5008;
 server.listen(port);

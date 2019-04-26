@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+<html>
+<title>Hot or Cold?</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="css/w3.css">
+<link rel="stylesheet" href="css/percircle.css">
+<link rel="stylesheet" href="css/style.css">
+<style>
+@font-face {
+    font-family: Raleway;
+    src: url(fonts/Raleway-Light.ttf);
+}
+body,h1,h5 {font-family: Raleway}
+body, html {height: 100%}
+.bgimg {
+  background-image: url('img/bg.jpg');
+  min-height: 100%;
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+}
+.clearfix:before, .clearfix:after { content: " "; display: table; }
+.clearfix:after { clear: both; }
+.clearfix { *zoom: 1; }
+.dark-area {
+	background-color: #555;
+	padding: 40px;
+	margin: 0 -40px 20px -40px;
+}
+.parent{
+    background:rgba(0,0,0,0.3);
+    width:auto;
+    display: table;
+    margin: 0 auto;
+    border-radius: 25px;
+}
+.temperature{
+    margin: 0 auto;
+    padding: 50px;
+}
+.humidity{
+    margin: 0 auto;
+    padding: 50px;
+}
+.header{
+  text-align: center;
+  font-weight: bold;
+  font-size: 3vh;
+}
+</style>
+<body>
+<!--MAIN DISPLAY-->
+<div class="bgimg w3-display-container w3-text-white" >
+    <div class="w3-row w3-display-middle parent">
+        <div class="temperature w3-col m6">
+			<div class="slidecontainer">
+                Input: <span id="min-temp" ></span>
+				MIN: <span id="min-temp-host"></span>
+                <input type="range" min="-30" max="70" class="slider" id="min-temp-range">
+			</div>
+			<div class="slidecontainer">
+                Input: <span id="max-temp"></span>
+				MAX: <span id="max-temp-host"></span>
+                <input type="range" min="-30" max="70" class="slider" id="max-temp-range">
+			</div>
+            <div class="clearfix">
+                <div class="header">TEMPERATURE</div><br>
+                <div id="temp_c" class="big"></div>
+            </div>
+        </div>
+        <div class="humidity w3-col m6">
+			<div class="slidecontainer">
+                Input: <span id="min-hum"></span>
+				MIN: <span id="min-hum-host"></span>
+                <input type="range" min="0" max="100" class="slider" id="min-hum-range">
+			</div>
+			<div class="slidecontainer">
+                Input: <span id="max-hum"></span>
+				MAX: <span id="max-hum-host"></span>
+                <input type="range" min="0" max="100" class="slider" id="max-hum-range">
+			</div>
+            <div class="clearfix">
+              <div class="header">HUMIDITY</div><br>
+              <div id="humidity" class="big"></div>
+            </div>
+            <br><br><br><br><br>
+        </div>
+        <div id="row">
+			<div class="column">
+				<div class="small" id="temp_f">
+                </div>
+                <p class="reading-label">Fahrenheit</p>
+            </div>
+            <div class="column">
+				<div class="small" id="temp_k">
+                </div><br>
+                <p class="reading-label">Kelvin</p>
+            </div>
+            <div class="column">
+				<div class="small" id="pwm_val">
+                </div>
+                <p class="reading-label">PWM</p>
+            </div>
+              <div class="fan-reading">
+                <h4 id="fan-speed"></h4>
+              </div>
+        </div>	
+    </div>
+  </div>
+</body>
+</html>
+<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="js/jquery-3.4.0.min.js"></script>
+<script type="text/javascript" src="js/percircle.js"></script>
+<script type="text/javascript" src="js/ourScript.js"></script>

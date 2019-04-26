@@ -1,6 +1,6 @@
 [2DO]
-Extremes
-and display addtls
+~Change values' variables onchange
+~bROADCAST event
 
 [MODULES]
 Arduino Nano (I2C Backpack)
@@ -56,3 +56,6 @@ whole = TRUE_MAX - TRUE_MIN;
 new_c = c + Math.abs(TRUE_MIN);
 % = (new_c / whole) * 100;
 
+[ESP8266]
+Host server should be first to connect to access point or connect to hostip:5008, 
+where hostip is the ipv4 address of host server

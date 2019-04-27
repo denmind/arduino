@@ -101,6 +101,6 @@
 }
 
 /**/
-#min-temp, #min-temp-host,#min-hum,#min-hum-host, #max-hum,#max-hum-host{
+#min-temp, #min-temp-host,#max-temp, #max-temp-host,#min-hum,#min-hum-host, #max-hum,#max-hum-host{
 	font-weight: bold;
 }

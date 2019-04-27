@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="css/w3.css">
 <link rel="stylesheet" href="css/percircle.css">
+<link rel="stylesheet" href="css/alertify.css"/>
+<link rel="stylesheet" href="css/themes/semantic.css"/>
 <link rel="stylesheet" href="css/style.css">
 <style>
 @font-face {
@@ -73,12 +75,12 @@ body, html {height: 100%}
 			<div class="slidecontainer">
                 Input: <span id="min-hum"></span>
 				MIN: <span id="min-hum-host"></span>
-                <input type="range" min="0" max="100" class="slider" id="min-hum-range">
+                <input type="range" min="0" max="100" step="0.1" class="slider" id="min-hum-range">
 			</div>
 			<div class="slidecontainer">
                 Input: <span id="max-hum"></span>
 				MAX: <span id="max-hum-host"></span>
-                <input type="range" min="0" max="100" class="slider" id="max-hum-range">
+                <input type="range" min="0" max="100" step="0.1" class="slider" id="max-hum-range">
 			</div>
             <div class="clearfix">
               <div class="header">HUMIDITY</div><br>
@@ -113,4 +115,5 @@ body, html {height: 100%}
 <script type="text/javascript" src="/socket.io/socket.io.js"></script>
 <script type="text/javascript" src="js/jquery-3.4.0.min.js"></script>
 <script type="text/javascript" src="js/percircle.js"></script>
+<script type="text/javascript" src="js/alertify.js"></script>
 <script type="text/javascript" src="js/ourScript.js"></script>

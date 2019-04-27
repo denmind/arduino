@@ -9,7 +9,7 @@ const String password = "it5008";
 const String redirect_url = "http://192.168.4.2:5008/";
 const String dns = "hc";
 
-const int LED_BLINK_MS = 700;
+const int LED_BLINK_MS = 500;
 
 ESP8266WebServer server(80);
 
@@ -20,10 +20,10 @@ void setup() {
   Serial.println("[CONFIG]");
   
   //WITHOUT security
-  WiFi.softAP(ssid);
+  //WiFi.softAP(ssid);
 
   //WITH security
-  //WiFi.softAP(ssid,password);
+  WiFi.softAP(ssid,password);
 
   IPAddress myIP = WiFi.softAPIP();
   Serial.println("[HOST]: " + myIP);
